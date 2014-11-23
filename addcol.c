@@ -33,10 +33,12 @@ main(int argc, char *argv[])
 	char filename[MAXFILENAME];
 	char textline[MAXLINELENGTH];
 	char delim[MAXDELIMCHARS] =	" "; 
+	char *ptr;
 
 	int o;
 	int fflag =		0;
 	int cflag =		0;
+	int dflag =		0;
 	int tflag =		0;
 	int vflag =		0;
 	int maxline =		MAXLINELENGTH; 
@@ -44,7 +46,6 @@ main(int argc, char *argv[])
 	int h =			0;
 	int i =			0;
 	int col =		0;
-	int value =		0;
 	int sum =		0;
 
 	while ((o = getopt(argc, argv, "vhc:f:t:d:")) != -1) {
@@ -55,6 +56,10 @@ main(int argc, char *argv[])
 			case 'f':
 				fflag = 1;
 				strcpy(filename, optarg);
+				break;
+			case 'd':
+				dflag = 1;
+				strcpy(delim, optarg);
 				break;
 			case 't':
 				tflag =1;
@@ -108,7 +113,6 @@ main(int argc, char *argv[])
 		}
 	}
 
-
 	if (vflag) {
 		printf("@headerlines= %d\n", headerlines);
 		printf("@col= %d\n", col);
@@ -124,17 +128,21 @@ main(int argc, char *argv[])
 
 	while ( ( fgets(textline, maxline, fp) ) != NULL) {
 
-		printf("textline=%s\n", textline);
-		// Get to the column right before the one we want
+		ptr = strtok(textline, delim);
+		for (i=1; i<col; i++) {
 
-		for (i=0; i<col; i++) {
-			printf("tok=%s\n", strtok(textline, delim));
+			ptr = strtok(NULL, delim);
+
+			if (ptr == NULL) {
+				fprintf(stderr,"Error: Only %d column(s)\n", i);
+				exit (-1);
+			}
 		}
 
-		sum += atoi(strtok(textline, delim));
-		printf("Subtotal= %d\n", sum);
-
+		sum += atoi(ptr);
 	}
+
+	printf("%d\n", sum);
 
 	fclose(fp);
 
