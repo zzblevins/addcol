@@ -32,7 +32,7 @@ main(int argc, char *argv[])
 
 	char filename[MAXFILENAME];
 	char textline[MAXLINELENGTH];
-	char delim[MAXDELIMCHARS] =	" "; 
+	char delim[MAXDELIMCHARS] =	" \t"; 
 	char *ptr;
 
 	int o;
@@ -73,7 +73,7 @@ main(int argc, char *argv[])
 				printf("Syntax: %s [-v] [-x] [-f filename]\n", argv[0]);
 				printf(" -c #: column # to sum\n");
 				printf(" -t #: number of header lines output for debug\n");
-				printf(" -d char: delimiter (default=<space>|tab)\n");
+				printf(" -d char: delimiter (default=<whitespace>)\n");
 				printf(" -f filename : textfile to use. Without -f, uses stdin\n");
 				printf(" -h : syntax\n");
 				printf(" -v : verbose output for debug\n");
@@ -114,9 +114,13 @@ main(int argc, char *argv[])
 	}
 
 	if (vflag) {
+		printf("@column= %d\n", col);
 		printf("@headerlines= %d\n", headerlines);
-		printf("@col= %d\n", col);
-		printf("@delimiter= %s\n", delim);
+		if (dflag) {
+			printf("@delimiter= %s\n", delim);
+		} else {
+			printf("@delimiter= <whitespace>\n");
+		}
 	}
 
 	// Get past the header lines
