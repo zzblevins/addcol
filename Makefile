@@ -1,5 +1,5 @@
 #
-# Makefile for tips.c
+# Makefile for addcol.c
 #
 
 # CC = icc
@@ -7,18 +7,20 @@ CC = g++
 DEBUG = -ggdb
 DATE = `date +%Y%m%d%H%M`
 
-addcol: addcol.c
-	$(CC) addcol.c -o addcol
+APP = addcol
 
-debug: addcol.c
-	$(CC) $(DEBUG) addcol.c -o addcol.debug
+$(APP): $(APP).c
+	$(CC) $(APP).c -o $(APP)
+
+debug: $(APP).c
+	$(CC) $(DEBUG) $(APP).c -o $(APP).debug
 
 install:
-	cp -f addcol ~/bin
+	cp -f $(APP) ~/bin
 
 backup:
-	cp -f addcol.c /nfs/projnfs/backups/addcol/addcol.c.$(DATE)
-	cp -f Makefile /nfs/projnfs/backups/addcol/Makefile.$(DATE)
+	cp -f $(APP).c /nfs/projnfs/backups/$(APP)/$(APP).c.$(DATE)
+	cp -f Makefile /nfs/projnfs/backups/$(APP)/Makefile.$(DATE)
 
 clean:
-	rm *.o
+	rm -f *.o ; rm $(APP)
