@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 #
-#	Sum numbers in a given column of a text file
+#	Sum numbers in a given column of a text file or pipe
 # 
 #	Syntax:
 #       % addcol [-v] [-c #] [-h] [-t #] [-d char] filename|<stdin>
