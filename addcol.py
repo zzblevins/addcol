@@ -10,11 +10,13 @@
 # 	Feb 2015
 #
 
-#import pdb		#Debugger
+#import pdb		# Debugger
 
-import argparse		#argv
-import sys		#For program exits
+import argparse		# argv utilities
+import sys
+import os
 
+codeversion =	1.0
 headerlines =	0
 h =		0
 j =		0
@@ -27,10 +29,16 @@ parser.add_argument("-v", "--verbose", help="verbose output", action="store_true
 parser.add_argument("-c", "--column", type=int, help="column # to sum")
 parser.add_argument("-t", "--hdr", type=int, help="# of column headers")
 parser.add_argument("-d", "--delim", help="delimiter char for column separator", default=' ')
+parser.add_argument("--version", help="version info", action="store_true")
 parser.add_argument("source", help="source file(s)...", nargs=argparse.REMAINDER)
 args = parser.parse_args()
 
 #pdb.set_trace()	#Turn on debugger
+
+# If just looking at program version, show it and exit
+if args.version:
+	print os.path.basename(sys.argv[0]), codeversion
+	sys.exit(0)
 
 # If no source file given, use <stdin>
 
