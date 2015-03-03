@@ -1,5 +1,5 @@
 #
-# Makefile for addcol.c
+# Makefile for addcol.c,py
 #
 
 # CC = icc
@@ -17,9 +17,11 @@ debug: $(APP).c
 
 install:
 	cp -f $(APP) ~/bin
+	cp -f $(APP).py ~/bin
 
 backup:
 	cp -f $(APP).c /nfs/projnfs/backups/$(APP)/$(APP).c.$(DATE)
+	cp -f $(APP).py /nfs/projnfs/backups/$(APP)/$(APP).py.$(DATE)
 	cp -f Makefile /nfs/projnfs/backups/$(APP)/Makefile.$(DATE)
 
 clean:
