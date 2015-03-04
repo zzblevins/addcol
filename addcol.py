@@ -10,19 +10,16 @@
 # 	Feb 2015
 #
 
-#import pdb		# Debugger
+import pdb		# Debugger
 
 import argparse		# argv utilities
 import sys
 import os
+import re		# regular expressions
 
 codeversion =	1.0
-headerlines =	0
 h =		0
-j =		0
-col =		0
 tot =		0
-colcount =	0
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-v", "--verbose", help="verbose output", action="store_true")
@@ -57,7 +54,10 @@ else:
 		print "Input <stdin>"
 
 if args.verbose:
-	print "Skiping ", args.hdr, " header lines..."
+	if args.hdr > 0:
+		print "Skiping ", args.hdr, " header lines..."
+	else:
+		print "No header lines..."
 
 # Get past the header lines (if any)
 if args.hdr:
@@ -69,17 +69,16 @@ if args.hdr:
 
 for textline in fp:
 
-	# Keep track of the number of elements for possible verbose output later
-	colcount += 1
+	if args.delim == ' ':
+		# Assume this means whitespace
+		tokline = re.split('\s', textline)
+	else :
 
-	# Split into columns
-	tokline = textline.split(args.delim, args.column)
+		# Split by given delimiter (--delim)
+		tokline = textline.split(args.delim, args.column)
 
 	# Column we want is one less than where the split stopped, convert to an int
 	tot += int(tokline[args.column -1])
-
-if args.verbose:
-	print "Column elements: ", colcount
 
 print tot
 
